@@ -33,7 +33,7 @@ export default function Page() {
 						<Image src="/hero-desktop.png" width={1000} height={760} className="hidden md:block" alt="Screenshot of the dashboard project showing desktop version"/>
 
 					}
-					<Image src="/hero-mobile.png" width={560} height={620} className="md:hidden block" alt="Screenshot of the dashboard project showing mobile version"/>
+					<Image src="/hero-mobile.png" width={560} height={620} className="md:hidden block" alt="Screenshot of the dashboard project showing mobile version" priority/>
 				</div>
 			</div>
 		</main>
