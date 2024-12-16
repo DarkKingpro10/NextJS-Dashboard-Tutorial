@@ -150,15 +150,12 @@ export async function fetchInvoicesPages(query: string) {
 
 export async function fetchInvoiceById(id: string) {
 	try {
-		const data = await sql<InvoiceForm>`
-      SELECT
-        invoices.id,
-        invoices.customer_id,
-        invoices.amount,
-        invoices.status
+		const query = `
+      SELECT invoices.id, invoices.customer_id, invoices.amount, invoices.status
       FROM invoices
-      WHERE invoices.id = ${id};
+      WHERE invoices.id = $1
     `;
+		const data = await connectionPool.query<InvoiceForm>(query, [id]);
 
 		const invoice = data.rows.map((invoice) => ({
 			...invoice,
