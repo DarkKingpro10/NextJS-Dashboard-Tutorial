@@ -24,14 +24,18 @@ export async function createInvoice(formData: FormData) {
 	const date = new Date().toISOString().split("T")[0];
 
 	const query = `
-    INSERT INTO invoices (customer_id, amount, status, date)
-    VALUES ($1, $2, $3, $4)
-  `;
+	INSERT INTO invoices (customer_id, amount, status, date)
+	VALUES ($1, $2, $3, $4)
+`;
 
 	const values = [customerId, amountInCents, status, date];
-
-	await connectionPool.query(query, values);
-
+	try {
+		await connectionPool.query(query, values);
+	} catch (error) {
+		return{
+			message: "Database Error: Failed to Create Invoice."
+		}
+	}
 	revalidatePath("/dashboard/invoices");
 	redirect("/dashboard/invoices");
 }
@@ -48,9 +52,15 @@ export async function updateInvoice(id: string, formData: FormData) {
     SET customer_id = $1, amount = $2, status = $3
     WHERE id = $4
   `;
-
-	await connectionPool.query(query, [customerId, amountInCents, status, id]);
-  revalidatePath("/dashboard/invoices");
+	
+	try {
+		await connectionPool.query(query, [customerId, amountInCents, status, id]);
+	} catch (error) {
+		return{
+			message: "Database Error: Failed to Update Invoice."
+		}
+	}
+	revalidatePath("/dashboard/invoices");
 	redirect("/dashboard/invoices");
 }
 
@@ -60,7 +70,12 @@ export async function deleteInvoice(id: string) {
     WHERE id = $1
   `;
 
-	await connectionPool.query(query, [id]);
-
+	try {
+		await connectionPool.query(query, [id]);
+	} catch (error) {
+		return{
+			message: "Database Error: Failed to Delete Invoice."
+		}
+	}
 	revalidatePath("/dashboard/invoices");
 }
