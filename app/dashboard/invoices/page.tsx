@@ -7,7 +7,7 @@ import { Suspense } from "react";
 import Pagination from "@/app/ui/invoices/pagination";
 import { fetchInvoicesPages } from "@/app/lib/data";
 
-export default async function(props: { searchParams?: Promise<{
+export default async function Page(props: { searchParams?: Promise<{
   query?: string;
   page?: string;
 }> }){
